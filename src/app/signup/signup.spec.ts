@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { vi } from 'vitest';
 import { AuthService } from '../core/auth.service';
 
@@ -50,5 +51,16 @@ describe('Signup', () => {
 
     expect(authService.signup).toHaveBeenCalledWith({ username: 'newuser', password: 'password123' });
     expect(routerStub.navigate).toHaveBeenCalledWith(['/dashboard']);
+  });
+
+  it('should show a backend unavailable message when signup cannot reach the server', () => {
+    authService.signup.mockReturnValue(
+      throwError(() => new HttpErrorResponse({ status: 0, statusText: 'Unknown Error' })),
+    );
+    component.form.setValue({ username: 'newuser', password: 'password123' });
+
+    component.onSubmit();
+
+    expect(component.errorMessage()).toContain('backend is unavailable');
   });
 });

@@ -1,26 +1,38 @@
 <main class="auth-page">
-  <section class="card" aria-labelledby="signup-title">
+  <section class="card" aria-labelledby="signup-title" data-testid="signup-card">
     <h1 id="signup-title">Create Your Account</h1>
     <p class="subtitle">Sign up to unlock stock lookup.</p>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
       <label for="username">Username</label>
-      <input id="username" type="text" formControlName="username" autocomplete="username" />
+      <input
+        id="username"
+        type="text"
+        formControlName="username"
+        autocomplete="username"
+        data-testid="signup-username"
+      />
       @if (form.controls.username.invalid && form.controls.username.touched) {
         <p class="error">Username must be at least 3 characters.</p>
       }
 
       <label for="password">Password</label>
-      <input id="password" type="password" formControlName="password" autocomplete="new-password" />
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        autocomplete="new-password"
+        data-testid="signup-password"
+      />
       @if (form.controls.password.invalid && form.controls.password.touched) {
         <p class="error">Password must be at least 8 characters.</p>
       }
 
       @if (errorMessage()) {
-        <p class="error" aria-live="polite">{{ errorMessage() }}</p>
+        <p class="error" aria-live="polite" data-testid="signup-error">{{ errorMessage() }}</p>
       }
 
-      <button type="submit" [disabled]="isSubmitting()">
+      <button type="submit" [disabled]="isSubmitting()" data-testid="signup-submit">
         {{ isSubmitting() ? 'Creating account...' : 'Create account' }}
       </button>
     </form>

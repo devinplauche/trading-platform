@@ -1,43 +1,159 @@
-<main class="dashboard-page">
+<main
+  class="dashboard-page"
+  [class.market-stock]="activeMarket() === 'STOCK'"
+  [class.market-crypto]="activeMarket() === 'CRYPTO'"
+>
   <header class="top-bar">
     <div>
-      <h1>Stock Lookup</h1>
-      <p>Enter a ticker symbol to get the opening price.</p>
+      <h1 data-testid="dashboard-title">{{ pageTitle() }}</h1>
+      <p>{{ pageDescription() }}</p>
     </div>
     <button type="button" class="logout-btn" (click)="onLogout()">Log out</button>
   </header>
 
-  <section class="lookup-card" aria-labelledby="lookup-title">
-    <h2 id="lookup-title">Search Symbol</h2>
-    <form [formGroup]="form" (ngSubmit)="onSearch()" novalidate>
-      <label for="symbol">Stock symbol</label>
-      <div class="field-row">
-        <input
-          id="symbol"
-          type="text"
-          formControlName="symbol"
-          autocomplete="off"
-          placeholder="AAPL"
-          maxlength="8"
-        />
-        <button type="submit" [disabled]="isSearching()">
-          {{ isSearching() ? 'Searching...' : 'Lookup' }}
-        </button>
-      </div>
-      @if (form.controls.symbol.invalid && form.controls.symbol.touched) {
-        <p class="error">Please enter a valid stock symbol.</p>
+  <div class="market-tabs-wrap">
+    <section class="market-tabs" aria-label="Market selector">
+      <button
+        type="button"
+        class="market-tab"
+        [class.market-tab-active]="activeMarket() === 'STOCK'"
+        (click)="setMarket('STOCK')"
+        data-testid="dashboard-tab-stock"
+      >
+        Stocks
+      </button>
+      <button
+        type="button"
+        class="market-tab"
+        [class.market-tab-active]="activeMarket() === 'CRYPTO'"
+        (click)="setMarket('CRYPTO')"
+        data-testid="dashboard-tab-crypto"
+      >
+        Crypto
+      </button>
+    </section>
+  </div>
+
+  <section class="content-grid">
+    <section class="lookup-card" aria-labelledby="lookup-title">
+      <h2 id="lookup-title">{{ lookupTitle() }}</h2>
+      <form [formGroup]="form" (ngSubmit)="onSearch()" novalidate>
+        <label for="symbol">{{ inputLabel() }}</label>
+        <div class="field-row">
+          <input
+            id="symbol"
+            type="text"
+            formControlName="symbol"
+            autocomplete="off"
+            [placeholder]="inputPlaceholder()"
+            maxlength="24"
+            (input)="onSymbolInput(form.controls.symbol.value)"
+            data-testid="dashboard-symbol-input"
+          />
+          <button type="submit" [disabled]="isSearching()">
+            {{ submitLabel() }}
+          </button>
+        </div>
+        @if (form.controls.symbol.invalid && form.controls.symbol.touched) {
+          <p class="error">Please enter a valid {{ activeMarket() === 'CRYPTO' ? 'crypto pair' : 'stock symbol' }}.</p>
+        }
+      </form>
+
+      @if (activeMarket() === 'CRYPTO') {
+        <p class="hint">Type any pair (for example, <strong>KRAKEN:BTCUSD</strong>) or use a quick pick.</p>
+        <div class="quick-picks" aria-label="Popular crypto pairs">
+          @for (pair of cryptoQuickPicks; track pair.symbol) {
+            <button type="button" class="quick-pick-btn" (click)="selectSuggestion(pair)">
+              <span class="quick-pick-symbol">{{ pair.symbol }}</span>
+              <span class="quick-pick-description">{{ pair.description }}</span>
+            </button>
+          }
+        </div>
       }
-    </form>
 
-    @if (errorMessage()) {
-      <p class="error" aria-live="polite">{{ errorMessage() }}</p>
-    }
+      @if (isLoadingSuggestions()) {
+        <p class="hint">Loading suggestions...</p>
+      }
 
-    @if (result(); as quote) {
-      <article class="result" aria-live="polite">
-        <h3>{{ quote.symbol }}</h3>
-        <p class="price">Opening Price: ${{ quote.openPrice }}</p>
-      </article>
-    }
+      @if (suggestions().length > 0) {
+        <ul class="suggestions" aria-label="Suggested symbols">
+          @for (suggestion of suggestions(); track suggestion.symbol) {
+            <li>
+              <button
+                type="button"
+                class="suggestion-btn"
+                (click)="selectSuggestion(suggestion)"
+                data-testid="dashboard-suggestion"
+              >
+                <span class="suggestion-symbol">{{ suggestion.symbol }}</span>
+                <span class="suggestion-description">{{ suggestion.description }}</span>
+              </button>
+            </li>
+          }
+        </ul>
+      }
+
+      @if (errorMessage()) {
+        <p class="error" aria-live="polite">{{ errorMessage() }}</p>
+      }
+
+      @if (result(); as quote) {
+        <article
+          class="result"
+          [class.result-stock]="activeMarket() === 'STOCK'"
+          [class.result-crypto]="activeMarket() === 'CRYPTO'"
+          aria-live="polite"
+        >
+          <div class="result-head">
+            <h3 data-testid="dashboard-result-symbol">{{ quote.symbol }}</h3>
+            <p class="price" data-testid="dashboard-result-price">${{ quote.currentPrice | number: '1.2-2' }}</p>
+          </div>
+
+          <div class="metrics">
+            <p data-testid="dashboard-metric-open"><span>Open</span><strong>${{ quote.openPrice | number: '1.2-2' }}</strong></p>
+            <p><span>Previous Close</span><strong>${{ quote.previousClose | number: '1.2-2' }}</strong></p>
+            <p><span>High</span><strong>${{ quote.highPrice | number: '1.2-2' }}</strong></p>
+            <p><span>Low</span><strong>${{ quote.lowPrice | number: '1.2-2' }}</strong></p>
+            <p><span>Change</span><strong>{{ quote.change | number: '1.2-2' }}</strong></p>
+            <p><span>% Change</span><strong>{{ quote.percentChange | number: '1.2-2' }}%</strong></p>
+          </div>
+        </article>
+      }
+    </section>
+
+    <aside class="history-card" aria-labelledby="history-title">
+      <h2 id="history-title">{{ historyTitle() }}</h2>
+      @if (isLoadingHistory()) {
+        <p class="hint">Loading your history...</p>
+      }
+
+      @if (historyErrorMessage()) {
+        <p class="error" aria-live="polite" data-testid="dashboard-history-error">
+          {{ historyErrorMessage() }}
+        </p>
+      }
+
+      @if (!isLoadingHistory() && hasHistory()) {
+        <ul class="history-list">
+          @for (item of history(); track item.searchedAt + item.symbol) {
+            <li>
+              <button
+                type="button"
+                class="history-btn"
+                (click)="selectSuggestion({ symbol: item.symbol, description: '', type: '' })"
+                data-testid="dashboard-history-item"
+              >
+                <span class="history-symbol">{{ item.symbol }}</span>
+                <span class="history-time">{{ item.searchedAt | date: 'MMM d, y, h:mm a' }}</span>
+              </button>
+            </li>
+          }
+        </ul>
+      }
+
+      @if (!isLoadingHistory() && !hasHistory() && !historyErrorMessage()) {
+        <p class="hint">{{ emptyHistoryMessage() }}</p>
+      }
+    </aside>
   </section>
 </main>

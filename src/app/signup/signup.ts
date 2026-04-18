@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../core/auth.service';
+import { isBackendUnavailable } from '../core/backend-error';
 
 @Component({
   selector: 'app-signup',
@@ -41,9 +42,13 @@ export class Signup {
           this.isSubmitting.set(false);
           this.router.navigate(['/dashboard']);
         },
-        error: () => {
+        error: (error: unknown) => {
           this.isSubmitting.set(false);
-          this.errorMessage.set('Signup failed. Please try another username.');
+          this.errorMessage.set(
+            isBackendUnavailable(error)
+              ? 'Cannot create your account right now because the backend is unavailable. Start the server and try again.'
+              : 'Signup failed. Please try another username.',
+          );
         },
       });
   }

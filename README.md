@@ -24,7 +24,7 @@ Optional environment variables:
 - `FINNHUB_API_KEY` (defaults to `demo`)
 - `JWT_SECRET` (defaults to a local dev secret in `application.yml`)
 
-## Run Frontend
+## Run App (Frontend + Backend)
 From repository root:
 
 ```bash
@@ -33,15 +33,14 @@ npm start
 ```
 
 Frontend runs at `http://localhost:4200`.
+Backend runs at `http://localhost:8080`.
 
 ## Run Backend
-From `backend/`:
+If you only want the backend:
 
 ```bash
-mvn spring-boot:run
+npm run start:backend
 ```
-
-Backend runs at `http://localhost:8080`.
 
 ## API Endpoints
 - `POST /api/auth/signup`
@@ -74,4 +73,4 @@ npm run build
 
 ## Notes
 - Angular dev server proxy is configured in `proxy.conf.json` to route `/api` calls to `http://localhost:8080`.
-- Backend uses H2 in-memory DB for local development.
+- Backend uses a file-based H2 DB (`./data/stocklookup`) for local persistence across restarts.

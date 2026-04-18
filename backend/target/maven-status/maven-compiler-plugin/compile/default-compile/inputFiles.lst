@@ -7,7 +7,12 @@ C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java
 C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\security\JwtService.java
 C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\security\SecurityConfig.java
 C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\StockLookupApplication.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\stocks\AssetType.java
 C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\stocks\FinnhubClient.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\stocks\SearchHistoryEntry.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\stocks\SearchHistoryRepository.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\stocks\SearchHistoryResponse.java
 C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\stocks\StockController.java
 C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\stocks\StockQuoteResponse.java
 C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\stocks\StockService.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\stocks\SymbolSearchResult.java

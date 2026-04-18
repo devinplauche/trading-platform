@@ -29,7 +29,12 @@ public class AuthService {
     public AuthDtos.AuthResponse signup(AuthDtos.SignupRequest request) {
         String normalizedUsername = request.username().trim().toLowerCase();
 
-        if (userRepository.existsByUsername(normalizedUsername)) {
+        AppUser existingUser = userRepository.findByUsername(normalizedUsername).orElse(null);
+        if (existingUser != null) {
+            if (passwordEncoder.matches(request.password(), existingUser.getPasswordHash())) {
+                return new AuthDtos.AuthResponse(jwtService.generateToken(existingUser.getUsername()));
+            }
+
             throw new IllegalArgumentException("Username is already in use");
         }
 

@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../core/auth.service';
+import { isBackendUnavailable } from '../core/backend-error';
 
 @Component({
   selector: 'app-login',
@@ -41,9 +42,13 @@ export class Login {
           this.isSubmitting.set(false);
           this.router.navigate(['/dashboard']);
         },
-        error: () => {
+        error: (error: unknown) => {
           this.isSubmitting.set(false);
-          this.errorMessage.set('Login failed. Check your credentials and try again.');
+          this.errorMessage.set(
+            isBackendUnavailable(error)
+              ? 'Cannot sign in right now because the backend is unavailable. Start the server and try again.'
+              : 'Login failed. Check your credentials and try again.',
+          );
         },
       });
   }

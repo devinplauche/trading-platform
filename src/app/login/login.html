@@ -1,11 +1,17 @@
 <main class="auth-page">
-	<section class="card" aria-labelledby="login-title">
+	<section class="card" aria-labelledby="login-title" data-testid="login-card">
 		<h1 id="login-title">Stock Lookup Login</h1>
 		<p class="subtitle">Sign in to search stock opening prices.</p>
 
 		<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
 			<label for="username">Username</label>
-			<input id="username" type="text" formControlName="username" autocomplete="username" />
+			<input
+				id="username"
+				type="text"
+				formControlName="username"
+				autocomplete="username"
+				data-testid="login-username"
+			/>
 			@if (form.controls.username.invalid && form.controls.username.touched) {
 				<p class="error">Username must be at least 3 characters.</p>
 			}
@@ -16,16 +22,17 @@
 				type="password"
 				formControlName="password"
 				autocomplete="current-password"
+				data-testid="login-password"
 			/>
 			@if (form.controls.password.invalid && form.controls.password.touched) {
 				<p class="error">Password must be at least 8 characters.</p>
 			}
 
 			@if (errorMessage()) {
-				<p class="error" aria-live="polite">{{ errorMessage() }}</p>
+				<p class="error" aria-live="polite" data-testid="login-error">{{ errorMessage() }}</p>
 			}
 
-			<button type="submit" [disabled]="isSubmitting()">
+			<button type="submit" [disabled]="isSubmitting()" data-testid="login-submit">
 				{{ isSubmitting() ? 'Signing in...' : 'Sign in' }}
 			</button>
 		</form>

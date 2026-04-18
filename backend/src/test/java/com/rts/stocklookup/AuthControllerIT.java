@@ -49,7 +49,30 @@ class AuthControllerIT {
     }
 
     @Test
-    void signupWithDuplicateUsernameShouldReturnBadRequest() throws Exception {
+                void signupWithDuplicateUsernameAndDifferentPasswordShouldReturnBadRequest() throws Exception {
+                                mockMvc.perform(post("/api/auth/signup")
+                                                                                                .contentType(MediaType.APPLICATION_JSON)
+                                                                                                .content("""
+                                                                                                                                {
+                                                                                                                                        "username": "duplicate",
+                                                                                                                                        "password": "password123"
+                                                                                                                                }
+                                                                                                                                """))
+                                                                .andExpect(status().isCreated());
+
+                                mockMvc.perform(post("/api/auth/signup")
+                                                                                                .contentType(MediaType.APPLICATION_JSON)
+                                                                                                .content("""
+                                                                                                                                {
+                                                                                                                                        "username": "duplicate",
+                                                                                                                                        "password": "different123"
+                                                                                                                                }
+                                                                                                                                """))
+                                                                .andExpect(status().isBadRequest());
+                }
+
+                @Test
+                void signupWithExistingUsernameAndSamePasswordShouldReturnJwt() throws Exception {
         String body = """
                 {
                   "username": "duplicate",
@@ -65,7 +88,8 @@ class AuthControllerIT {
         mockMvc.perform(post("/api/auth/signup")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.token").isString());
     }
 
     @Test

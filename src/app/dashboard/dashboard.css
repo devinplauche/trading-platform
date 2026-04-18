@@ -1,0 +1,123 @@
+.dashboard-page {
+  min-height: 100dvh;
+  padding: 1.25rem;
+  background:
+    radial-gradient(circle at 15% 15%, rgb(255 234 215 / 70%), transparent 36%),
+    radial-gradient(circle at 85% 2%, rgb(219 240 255 / 80%), transparent 40%),
+    linear-gradient(180deg, #fbfdff, #eef3f8);
+}
+
+.top-bar {
+  max-width: 52rem;
+  margin: 0 auto 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  color: #132238;
+}
+
+.top-bar p {
+  margin: 0.4rem 0 0;
+  color: #395168;
+}
+
+.lookup-card {
+  max-width: 52rem;
+  margin: 0 auto;
+  border-radius: 1rem;
+  background: #ffffff;
+  border: 1px solid #d8e2ec;
+  padding: 1.2rem;
+  box-shadow: 0 10px 30px rgb(18 34 56 / 12%);
+}
+
+h2 {
+  margin-top: 0;
+  color: #17304a;
+}
+
+.field-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-weight: 600;
+  color: #17304a;
+}
+
+input {
+  flex: 1;
+  padding: 0.7rem 0.8rem;
+  border-radius: 0.65rem;
+  border: 1px solid #b8c9dc;
+  font-size: 1rem;
+}
+
+input:focus {
+  outline: 2px solid #0f63ce;
+  outline-offset: 1px;
+}
+
+button {
+  border: 0;
+  border-radius: 0.65rem;
+  padding: 0.7rem 1rem;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(120deg, #0f63ce, #0e9178);
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.logout-btn {
+  background: linear-gradient(120deg, #7a2f28, #b14c3c);
+}
+
+.error {
+  color: #a5251b;
+  margin: 0.6rem 0 0;
+}
+
+.result {
+  margin-top: 1rem;
+  padding: 0.9rem;
+  border-radius: 0.75rem;
+  border: 1px solid #d0dfeb;
+  background: linear-gradient(120deg, #f4f8ff, #effcf8);
+}
+
+.result h3 {
+  margin: 0;
+  color: #0d3558;
+  font-size: 1.25rem;
+}
+
+.price {
+  margin: 0.4rem 0 0;
+  color: #133f66;
+  font-weight: 700;
+}
+
+@media (max-width: 600px) {
+  .top-bar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .field-row {
+    flex-direction: column;
+  }
+}

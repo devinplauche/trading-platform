@@ -1,0 +1,43 @@
+<main class="dashboard-page">
+  <header class="top-bar">
+    <div>
+      <h1>Stock Lookup</h1>
+      <p>Enter a ticker symbol to get the opening price.</p>
+    </div>
+    <button type="button" class="logout-btn" (click)="onLogout()">Log out</button>
+  </header>
+
+  <section class="lookup-card" aria-labelledby="lookup-title">
+    <h2 id="lookup-title">Search Symbol</h2>
+    <form [formGroup]="form" (ngSubmit)="onSearch()" novalidate>
+      <label for="symbol">Stock symbol</label>
+      <div class="field-row">
+        <input
+          id="symbol"
+          type="text"
+          formControlName="symbol"
+          autocomplete="off"
+          placeholder="AAPL"
+          maxlength="8"
+        />
+        <button type="submit" [disabled]="isSearching()">
+          {{ isSearching() ? 'Searching...' : 'Lookup' }}
+        </button>
+      </div>
+      @if (form.controls.symbol.invalid && form.controls.symbol.touched) {
+        <p class="error">Please enter a valid stock symbol.</p>
+      }
+    </form>
+
+    @if (errorMessage()) {
+      <p class="error" aria-live="polite">{{ errorMessage() }}</p>
+    }
+
+    @if (result(); as quote) {
+      <article class="result" aria-live="polite">
+        <h3>{{ quote.symbol }}</h3>
+        <p class="price">Opening Price: ${{ quote.openPrice }}</p>
+      </article>
+    }
+  </section>
+</main>

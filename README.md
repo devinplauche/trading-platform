@@ -1,59 +1,77 @@
-# StockLookup
+# Stock Lookup (Spring Boot + Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+This project implements the RTS coding exercise with:
+- Spring Boot backend (`backend/`)
+- Angular frontend (`/` root app)
 
-## Development server
+## Features
+- User signup, login, logout
+- Auth-protected stock lookup by ticker symbol
+- Opening stock price retrieval through Finnhub integration
+- TDD-oriented test coverage for key happy paths
 
-To start a local development server, run:
+## Project Structure
+- Frontend Angular app: `src/`
+- Backend Spring Boot app: `backend/`
+- Step-by-step development notes: `DEVELOPMENT_PROGRESS.md`
 
-```bash
-ng serve
-```
+## Prerequisites
+- Node.js and npm
+- Java 21+
+- Maven (for backend)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Optional environment variables:
+- `FINNHUB_API_KEY` (defaults to `demo`)
+- `JWT_SECRET` (defaults to a local dev secret in `application.yml`)
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## Run Frontend
+From repository root:
 
 ```bash
-ng build
+npm install
+npm start
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Frontend runs at `http://localhost:4200`.
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Run Backend
+From `backend/`:
 
 ```bash
-ng test
+mvn spring-boot:run
 ```
 
-## Running end-to-end tests
+Backend runs at `http://localhost:8080`.
 
-For end-to-end (e2e) testing, run:
+## API Endpoints
+- `POST /api/auth/signup`
+- `POST /api/auth/login`
+- `POST /api/auth/logout`
+- `GET /api/stocks/{symbol}` (requires bearer token)
+
+## Testing
+
+### Frontend tests
+From repository root:
 
 ```bash
-ng e2e
+npm test -- --watch=false
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Backend tests
+From `backend/`:
 
-## Additional Resources
+```bash
+mvn test
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Build Frontend
+From repository root:
+
+```bash
+npm run build
+```
+
+## Notes
+- Angular dev server proxy is configured in `proxy.conf.json` to route `/api` calls to `http://localhost:8080`.
+- Backend uses H2 in-memory DB for local development.

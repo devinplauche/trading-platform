@@ -1,0 +1,84 @@
+.auth-page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background:
+    radial-gradient(circle at 18% 8%, rgb(214 255 236 / 85%), transparent 33%),
+    radial-gradient(circle at 82% 12%, rgb(255 238 204 / 90%), transparent 37%),
+    linear-gradient(135deg, #f4f8ff, #eef7f2);
+}
+
+.card {
+  width: min(100%, 28rem);
+  background: #ffffff;
+  border: 1px solid #d8e6de;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgb(10 44 36 / 12%);
+}
+
+h1 {
+  margin: 0 0 0.5rem;
+  font-size: 1.8rem;
+  color: #123828;
+}
+
+.subtitle {
+  margin: 0 0 1.2rem;
+  color: #355748;
+}
+
+form {
+  display: grid;
+  gap: 0.55rem;
+}
+
+label {
+  font-weight: 600;
+  color: #214738;
+}
+
+input {
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #afcabd;
+  border-radius: 0.6rem;
+  font-size: 1rem;
+}
+
+input:focus {
+  outline: 2px solid #0a8a6a;
+  outline-offset: 1px;
+}
+
+button {
+  margin-top: 0.4rem;
+  padding: 0.72rem 1rem;
+  border: 0;
+  border-radius: 0.6rem;
+  background: linear-gradient(120deg, #0b7b7f, #0a8a6a);
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.error {
+  margin: 0 0 0.3rem;
+  color: #a5251b;
+  font-size: 0.92rem;
+}
+
+.helper-text {
+  margin-top: 1rem;
+  color: #355748;
+}
+
+a {
+  color: #0a8a6a;
+  font-weight: 700;
+}

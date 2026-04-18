@@ -1,0 +1,13 @@
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\auth\AppUser.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\auth\AppUserRepository.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\auth\AuthController.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\auth\AuthDtos.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\auth\AuthService.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\security\JwtAuthFilter.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\security\JwtService.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\security\SecurityConfig.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\StockLookupApplication.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\stocks\FinnhubClient.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\stocks\StockController.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\stocks\StockQuoteResponse.java
+C:\Users\devinsGamingPC\Coding\Take-Home-Exam\stock-lookup\backend\src\main\java\com\rts\stocklookup\stocks\StockService.java

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { AuthService } from './auth.service';
 
 export type AssetMarket = 'STOCK' | 'CRYPTO';
@@ -43,7 +44,7 @@ export class StockService {
     const normalizedSymbol = symbol.trim().toUpperCase();
     const headers = this.authHeaders(token);
 
-    return this.http.get<StockQuote>(`/api/stocks/${encodeURIComponent(normalizedSymbol)}`, {
+    return this.http.get<StockQuote>(`${environment.apiBaseUrl}/api/stocks/${encodeURIComponent(normalizedSymbol)}`, {
       headers,
       params: { market },
     });
@@ -57,7 +58,7 @@ export class StockService {
 
     const headers = this.authHeaders(token);
 
-    return this.http.get<SymbolSuggestion[]>('/api/stocks/search', {
+    return this.http.get<SymbolSuggestion[]>(`${environment.apiBaseUrl}/api/stocks/search`, {
       headers,
       params: { query: query.trim(), market },
     });
@@ -70,7 +71,7 @@ export class StockService {
     }
 
     const headers = this.authHeaders(token);
-    return this.http.get<SearchHistoryItem[]>('/api/stocks/history', {
+    return this.http.get<SearchHistoryItem[]>(`${environment.apiBaseUrl}/api/stocks/history`, {
       headers,
       params: { market },
     });

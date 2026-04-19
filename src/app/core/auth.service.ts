@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, map, Observable, of, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 type Credentials = {
   username: string;
@@ -23,21 +24,21 @@ export class AuthService {
   readonly isAuthenticated = computed(() => Boolean(this.tokenState()));
 
   signup(credentials: Credentials): Observable<void> {
-    return this.http.post<AuthResponse>('/api/auth/signup', credentials).pipe(
+    return this.http.post<AuthResponse>(`${environment.apiBaseUrl}/api/auth/signup`, credentials).pipe(
       tap((response) => this.setToken(response.token)),
       map(() => undefined)
     );
   }
 
   login(credentials: Credentials): Observable<void> {
-    return this.http.post<AuthResponse>('/api/auth/login', credentials).pipe(
+    return this.http.post<AuthResponse>(`${environment.apiBaseUrl}/api/auth/login`, credentials).pipe(
       tap((response) => this.setToken(response.token)),
       map(() => undefined)
     );
   }
 
   logout(): Observable<void> {
-    return this.http.post('/api/auth/logout', {}).pipe(
+    return this.http.post(`${environment.apiBaseUrl}/api/auth/logout`, {}).pipe(
       catchError(() => of(null)),
       tap(() => {
         this.tokenState.set(null);

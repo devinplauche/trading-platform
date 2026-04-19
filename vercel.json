@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://stock-lookup-backend.render.com/api/$1"
+    }
+  ]
+}

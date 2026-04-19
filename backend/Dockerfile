@@ -8,7 +8,7 @@ RUN mvn clean package -DskipTests
 # Runtime stage
 FROM eclipse-temurin:21-jre
 WORKDIR /app
-COPY --from=builder /app/target/stocklookup-*.jar app.jar
+COPY --from=builder /app/target/stock-lookup-backend-*.jar app.jar
 
 ENV PORT=8080
 EXPOSE 8080

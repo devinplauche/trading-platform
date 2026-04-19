@@ -71,6 +71,24 @@ From repository root:
 npm run build
 ```
 
+## Deploy Frontend To Vercel
+
+A deployment plan is available at `docs/vercel-deployment-plan.md`.
+
+This repository includes a deploy script that works with a Vercel API key:
+
+```bash
+export VERCEL_API_KEY="your_vercel_token"
+npm run deploy:vercel
+```
+
+Optional environment variables for the script:
+- `VERCEL_PROJECT_NAME` (defaults to current folder name)
+- `VERCEL_SCOPE` (team/user scope)
+- `VERCEL_CWD` (deployment directory; defaults to repo root)
+
+The frontend currently calls same-origin `/api/*` routes, so the Spring Boot backend should be hosted separately and connected via rewrite/proxy or explicit API base URL configuration.
+
 ## Notes
 - Angular dev server proxy is configured in `proxy.conf.json` to route `/api` calls to `http://localhost:8080`.
 - Backend uses a file-based H2 DB (`./data/stocklookup`) for local persistence across restarts.

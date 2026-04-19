@@ -1,6 +1,5 @@
 // Production environment configuration
-// For Render backend: set this to your Render backend URL (e.g., 'https://stock-lookup-backend.render.com')
-// For same-origin calls via Vercel rewrite: leave empty string
+// Points to the backend deployed on Render
 export const environment = {
-  apiBaseUrl: ''
+  apiBaseUrl: 'https://trading-platform-1-3777.onrender.com'
 };

@@ -1,9 +1,10 @@
 /**
- * Vercel Cron job: daily Alpaca paper-trading summary -> ntfy push notification.
+ * Vercel Cron job: daily Alpaca paper-trading summary -> email via Resend.
  *
  * Runs once per day after market close (see vercel.json "crons").
  * Reads APCA_API_KEY_ID / APCA_API_SECRET_KEY (Production env vars),
- * fetches the paper account + positions, and POSTs a short summary to ntfy.
+ * fetches the paper account + positions, and sends a short summary email
+ * through the Resend API (free-tier test domain onboarding@resend.dev).
  */
 
 const PAPER_API = "https://paper-api.alpaca.markets";
@@ -71,8 +72,9 @@ async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
 
   const keyId = process.env["APCA_API_KEY_ID"];
   const secret = process.env["APCA_API_SECRET_KEY"];
-  const topic = process.env["NTFY_TOPIC"];
-  if (!keyId || !secret || !topic) {
+  const resendKey = process.env["RESEND_API_KEY"];
+  const summaryEmail = process.env["SUMMARY_EMAIL"];
+  if (!keyId || !secret || !resendKey || !summaryEmail) {
     res.status(500).json({ error: "missing environment variables" });
     return;
   }
@@ -107,16 +109,22 @@ async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
       }
     }
 
-    const ntfyRes = await fetch(`https://ntfy.sh/${encodeURIComponent(topic)}`, {
+    // Send the summary as an email through Resend (free-tier test domain).
+    const resendRes = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        Title: "Paper trading - daily summary",
-        Tags: "chart_with_upwards_trend",
+        Authorization: `Bearer ${resendKey}`,
+        "Content-Type": "application/json",
       },
-      body: lines.join("\n"),
+      body: JSON.stringify({
+        from: "onboarding@resend.dev",
+        to: [summaryEmail],
+        subject: "Paper trading - daily summary",
+        text: lines.join("\n"),
+      }),
     });
-    if (!ntfyRes.ok) {
-      throw new Error(`ntfy responded ${ntfyRes.status}`);
+    if (!resendRes.ok) {
+      throw new Error(`Resend responded ${resendRes.status}`);
     }
 
     res.status(200).json({ ok: true, positions: positions.length });

@@ -59,7 +59,7 @@ function signedMoney(n: number): string {
 
 export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
   // Vercel Cron sends this header automatically when CRON_SECRET is configured.
-  const cronSecret = process.env.CRON_SECRET;
+  const cronSecret = process.env["CRON_SECRET"];
   if (cronSecret) {
     const auth = req.headers["authorization"];
     const header = Array.isArray(auth) ? auth[0] : auth;
@@ -69,9 +69,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
     }
   }
 
-  const keyId = process.env.APCA_API_KEY_ID;
-  const secret = process.env.APCA_API_SECRET_KEY;
-  const topic = process.env.NTFY_TOPIC;
+  const keyId = process.env["APCA_API_KEY_ID"];
+  const secret = process.env["APCA_API_SECRET_KEY"];
+  const topic = process.env["NTFY_TOPIC"];
   if (!keyId || !secret || !topic) {
     res.status(500).json({ error: "missing environment variables" });
     return;

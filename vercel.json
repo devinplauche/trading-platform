@@ -4,5 +4,11 @@
       "source": "/api/(.*)",
       "destination": "https://stock-lookup-backend.render.com/api/$1"
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/daily-summary",
+      "schedule": "0 21 * * *"
+    }
   ]
 }

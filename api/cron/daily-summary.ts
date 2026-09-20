@@ -57,7 +57,7 @@ function signedMoney(n: number): string {
   return `${n < 0 ? "-" : "+"}${money(n)}`;
 }
 
-export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
+async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
   // Vercel Cron sends this header automatically when CRON_SECRET is configured.
   const cronSecret = process.env["CRON_SECRET"];
   if (cronSecret) {
@@ -124,3 +124,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
     res.status(500).json({ error: err instanceof Error ? err.message : "unknown error" });
   }
 }
+
+// CommonJS export: the project's tsconfig uses "module": "preserve", so the
+// emitted JS keeps whatever module syntax is written here. The deployment
+// root package.json has no "type": "module", so Node loads this file as
+// CommonJS — `export default` crashes at runtime, `module.exports` works.
+module.exports = handler;
